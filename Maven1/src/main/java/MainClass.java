@@ -1,8 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.time.Duration;
@@ -16,11 +14,10 @@ public class MainClass {
 
         // Инициализируем Chrome драйвер
         WebDriver driver = new ChromeDriver();
-
         // Переход на сайт
         driver.get("https://mail.ru/");
 
-        driver.findElement(By.xpath("//*[@class='resplash-btn resplash-btn_primary resplash-btn_mailbox-big mfflmpk__b85yax']")).click();
+        driver.findElement(By.xpath("//*[@class='resplash-btn resplash-btn_primary resplash-btn_mailbox-big ejf-iekc__1jdtl7f']")).click();
 
         // Переключение на iframe
         WebElement iframeElement = driver.findElement(By.cssSelector("iframe.ag-popup__frame__layout__iframe"));
@@ -56,10 +53,44 @@ public class MainClass {
         Thread.sleep(Duration.ofSeconds(5).toMillis());
 
         // Проверка наличия кнопки "Создать почту"
-        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='resplash-btn resplash-btn_outlined-themed resplash-btn_mailbox-big mfflmpk__b85yax']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='resplash-btn resplash-btn_outlined-themed resplash-btn_mailbox-big ejf-iekc__1jdtl7f']")).isDisplayed());
 
         // Закрытие браузера
         driver.quit();
+    }
+    @Test
+    public void SecondTest() throws InterruptedException{
+
+
+        System.setProperty("webdriver.chrome.driver", "D:\\Maven1\\drivers\\chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://habr.com/ru/all/");
+        Thread.sleep(Duration.ofSeconds(5).toMillis());
+        driver.findElement(By.xpath("//*[@class='tm-svg-img tm-header-user-menu__icon tm-header-user-menu__icon_search tm-header-user-menu__icon_dark']")).click();
+        Thread.sleep(Duration.ofSeconds(5).toMillis());
+
+        WebElement input = driver.findElement(By.xpath("//input[@name='q']"));
+        Assert.assertEquals(input, driver.switchTo().activeElement());
+
+        input.sendKeys("Selenium WebDriver");
+        driver.findElement(By.xpath("//*[@class='tm-svg-img tm-svg-icon']")).click();
+        Thread.sleep(Duration.ofSeconds(5).toMillis());
+
+        driver.findElement(By.linkText("Что такое Selenium?")).click();
+        Thread.sleep(Duration.ofSeconds(5).toMillis());
+
+        Assert.assertEquals("28 сен 2012 в 16:14", driver.findElement(By.cssSelector("[title='2012-09-28, 16:14']")).getText());
+        Thread.sleep(Duration.ofSeconds(5).toMillis());
+
+        JavascriptExecutor js = ((JavascriptExecutor) driver);
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        Thread.sleep(Duration.ofSeconds(5).toMillis());
+
+        driver.findElement(By.xpath("//a[@href='/ru/articles/' and @class='footer-menu__item-link router-link-active']")).click();
+        Thread.sleep(Duration.ofSeconds(5).toMillis());
+
+        driver.quit();
+
     }
 
 }
